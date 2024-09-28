@@ -1,4 +1,8 @@
 fastapi
 uvicorn
 pydantic
-apscheduler
+bcrypt
+cryptography
+python-jose
+python-multipart
+passlib
