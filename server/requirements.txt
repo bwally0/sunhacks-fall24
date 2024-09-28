@@ -6,3 +6,4 @@ cryptography
 python-jose
 python-multipart
 passlib
+pyJWT
