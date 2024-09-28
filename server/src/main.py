@@ -5,6 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordBearer
 from contextlib import asynccontextmanager
 from src.db import create_tables, DB_PATH
+import src.auth
 
 # startup event to init database
 @asynccontextmanager
@@ -20,8 +21,7 @@ async def lifespan(app: FastAPI):
     yield
 
 app = FastAPI(root_path="/api/v1", lifespan=lifespan)
-
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+app.include_router(src.auth.router)
 
 origins = [
     "http://localhost:5173",  # react app on port 5173
