@@ -1,24 +1,12 @@
 import React, {useState, useEffect} from 'react'
 import axios from 'axios'
+import { BrowserRouter, Route, Router } from 'react-router-dom'
+import LoginPage from './LoginPage'
 
 function App() {
-  const [message, setMessage] = useState([])
-
-  useEffect(() => {
-    axios.get('http://127.0.0.1:8000')
-      .then(response => {
-        setMessage(response.data)
-      })
-      .catch(error => {
-        console.error(error)
-      })
-  }, [])
-
   return (
     <>
-      <div className="card">
-        <div className="card-body">{message.message}</div>
-      </div>
+      <LoginPage/>
     </>
   )
 }
