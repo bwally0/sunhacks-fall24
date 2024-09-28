@@ -21,3 +21,4 @@ npm install
 ./client> npm run dev
 ./server> fastapi dev src/main.py
 ```
+savannah run this: `python3 -m fastapi dev src/main.py`
