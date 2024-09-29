@@ -3,7 +3,9 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from passlib.context import CryptContext
 from pydantic import BaseModel
+from src.models import User, CreateUser
 from src.db import get_db
+import src.user as user_db
 import jwt
 
 router = APIRouter(
@@ -20,6 +22,13 @@ oauth2_bearer = OAuth2PasswordBearer(tokenUrl="auth/token")
 class UserLogin(BaseModel):
     username: str
     password: str
+
+class UserRegister(UserLogin):
+    first_name: str
+    last_name: str
+    location: str
+    gender: str
+    phone: str
 
 class Token(BaseModel):
     access_token: str
@@ -62,7 +71,9 @@ def get_current_user(token: str = Depends(oauth2_bearer)):
     return user_id
 
 def authenticate_user(username: str, password: str):
+
     user = fake_users_db.get(username)
+
     if not user:
         return None
     if not verify_password(password, user["hashed_password"]):
@@ -70,22 +81,11 @@ def authenticate_user(username: str, password: str):
     return user
 
 @router.post("/", response_model=Token)
-async def register_user(user: UserLogin):
-    # create user object
-    if user.username in fake_users_db:
-        raise HTTPException(status_code=400, detail="Username already exists")
-    
+async def register_user(user: UserRegister, db_con: sqlite3.Connection = Depends(get_db)):
     hashed_password = hash_password(user.password)
-    user_id = len(fake_users_db) + 1
+    user = user_db.create_user(db_con, CreateUser(user_id=0, username=user.username, hashed_password=hashed_password, first_name=user.first_name, last_name=user.last_name, location=user.location, gender=user.gender, phone=user.phone))
 
-    fake_users_db[user.username] = {
-        "username": user.username,
-        "hashed_password": hashed_password,
-        "user_id": user_id
-    }
-    print(fake_users_db)
-
-    access_token = create_access_token(user_id)
+    access_token = create_access_token(user.user_id)
     return {"access_token": access_token, "token_type": "bearer"}
 
 @router.post("/login", response_model=Token)

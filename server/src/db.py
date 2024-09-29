@@ -20,7 +20,7 @@ def create_tables(db_cur: sqlite3.Cursor):
             hashed_password TEXT NOT NULL,
             first_name TEXT,
             last_name TEXT,
-            loc TEXT,
+            location TEXT,
             gender TEXT,
             phone TEXT
         );
@@ -35,7 +35,7 @@ def create_tables(db_cur: sqlite3.Cursor):
             description TEXT,
             location TEXT,
             owner_id INTEGER,
-            FOREIGN KEY (owner_id) REFERENCES users(id)
+            FOREIGN KEY (owner_id) REFERENCES users(user_id)
         );
 
         CREATE TABLE IF NOT EXISTS workout_members (
