@@ -1,10 +1,8 @@
 import React, {useState, useEffect} from 'react'
-import axios from 'axios'
 import { BrowserRouter, Route, Router, Routes } from 'react-router-dom'
 import LoginPage from './LoginPage'
 import PrivateRoute from './PrivateRoute'
-import TestPage from './TestPage'
-import MainPage from './MainPage'
+import MainContainer from './MainContainer'
 
 function App() {
   const [auth, setAuth] = useState(false)
@@ -17,7 +15,7 @@ function App() {
           path="/"
           element={
             <PrivateRoute>
-              <TestPage/>
+              <MainContainer setAuth={setAuth}/>
             </PrivateRoute>
           }
         />
