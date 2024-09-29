@@ -12,6 +12,13 @@ class User(BaseModel):
 class CreateUser(User):
     hashed_password: str
 
+class UpdateUser(BaseModel):
+    first_name: str
+    last_name: str
+    location: str
+    gender: str
+    phone: str
+
 class Workout(BaseModel):
     workout_id: int
     name: str

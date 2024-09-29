@@ -16,7 +16,7 @@ def create_tables(db_cur: sqlite3.Cursor):
                          
         CREATE TABLE IF NOT EXISTS users (
             user_id INTEGER PRIMARY KEY,
-            username TEXT NOT NULL,
+            username TEXT UNIQUE NOT NULL,
             hashed_password TEXT NOT NULL,
             first_name TEXT,
             last_name TEXT,
