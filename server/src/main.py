@@ -20,7 +20,7 @@ async def lifespan(app: FastAPI):
         db_con.close()
     yield
 
-app = FastAPI(root_path="/api/v1", lifespan=lifespan)
+app = FastAPI(root_path="/api", lifespan=lifespan)
 app.include_router(src.auth.router)
 
 origins = [
