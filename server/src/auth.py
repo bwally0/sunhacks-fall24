@@ -70,13 +70,12 @@ def get_current_user(token: str = Depends(oauth2_bearer)):
         raise Exception()
     return user_id
 
-def authenticate_user(username: str, password: str):
-
-    user = fake_users_db.get(username)
+def authenticate_user(username: str, password: str, db_con: sqlite3.Connection):
+    user = user_db.get_user_by_name(db_con, username)
 
     if not user:
         return None
-    if not verify_password(password, user["hashed_password"]):
+    if not verify_password(password, user.hashed_password):
         return None
     return user
 
@@ -89,15 +88,15 @@ async def register_user(user: UserRegister, db_con: sqlite3.Connection = Depends
     return {"access_token": access_token, "token_type": "bearer"}
 
 @router.post("/login", response_model=Token)
-async def login(user: UserLogin):
-    user = authenticate_user(user.username, user.password)
+async def login(user: UserLogin, db_con: sqlite3.Connection = Depends(get_db)):
+    user = authenticate_user(user.username, user.password, db_con)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect username or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    access_token = create_access_token(user["user_id"])
+    access_token = create_access_token(user.user_id)
     return {"access_token": access_token, "token_type": "bearer"}
 
 @router.get("/protected")
