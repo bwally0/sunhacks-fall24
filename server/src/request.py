@@ -142,10 +142,17 @@ def accept_request(db_con: sqlite3.Connection, request_id: int, user_id: int) ->
         
         workout = get_request_by_id(db_con, request_id)
 
+        result = db_cur.execute("""SELECT participant_id FROM requests WHERE request_id = ?""", (request_id,)).fetchone()
+
+        if result is None:
+            raise HTTPException(status_code=404, detail="No participant found")
+        else:
+            participant_id = result[0]
+
         db_cur.execute("""
             INSERT INTO workout_members (workout_id, user_id)
-            SELECT (?, ?)
-            """, (workout.workout_id, user_id))
+            VALUES (?, ?)
+            """, (workout.workout_id, participant_id))
         
         db_con.commit()
         
