@@ -5,7 +5,7 @@ class User(BaseModel):
     username: str
     first_name: str
     last_name: str
-    loc: str
+    location: str
     gender: str
     phone: str
 

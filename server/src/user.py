@@ -10,9 +10,9 @@ def create_user(db_con: sqlite3.Connection, user_create: CreateUser) -> User | N
 
     try:
         db_cur.execute("""
-            INSERT INTO users (username, hashed_password, first_name, last_name, gym_loc, gender, phone)
-            VALUES (?, ?, ?, ?, ?, ?)""",
-            (user_create.user_id, user_create.hashed_password, user_create.first_name, user_create.last_name, user_create.loc, user_create.gender, user_create.phone))
+            INSERT INTO users (username, hashed_password, first_name, last_name, location, gender, phone)
+            VALUES (?, ?, ?, ?, ?, ?, ?)""",
+            (user_create.username, user_create.hashed_password, user_create.first_name, user_create.last_name, user_create.location, user_create.gender, user_create.phone))
         db_con.commit()
     except  sqlite3.Error as err:
         db_con.rollback()
@@ -20,7 +20,7 @@ def create_user(db_con: sqlite3.Connection, user_create: CreateUser) -> User | N
     finally:
         user_create.user_id = db_cur.lastrowid
 
-    user = User(user_id=user_create.user_id, first_name=user_create.first_name, last_name=user_create.last_name, gym_loc=user_create.loc, gender=user_create.gender, phone=user_create.phone)
+    user = User(user_id=user_create.user_id, username=user_create.username, first_name=user_create.first_name, last_name=user_create.last_name, location=user_create.location, gender=user_create.gender, phone=user_create.phone)
 
     return user
 
@@ -30,9 +30,9 @@ def update_user(db_con: sqlite3.Connection, user: User) -> User | None:
     try:
         ("""
         UPDATE users 
-        SET username = ?, first_name = ?, last_name = ?, gym_loc = ?, gender = ?, phone = ?
+        SET username = ?, first_name = ?, last_name = ?, location = ?, gender = ?, phone = ?
         WHERE user_id = ?
-        """, (user.username, user.first_name, user.last_name, user.loc, user.gender, user.phone, user.user_id))
+        """, (user.username, user.first_name, user.last_name, user.location, user.gender, user.phone, user.user_id))
         db_con.commit()
     except sqlite3.Error as err:
         db_con.rollback()
@@ -55,7 +55,7 @@ def get_user(db_con: sqlite3.Connection, id: int) -> User | None:
         res = db_cur.fetchone()
 
         if res:
-            user = User(user_id=res[0], username=res[1], first_name=res[3], last_name=res[4], gym_loc=res[5], gender=res[6], phone=res[7])
+            user = User(user_id=res[0], username=res[1], first_name=res[3], last_name=res[4], location=res[5], gender=res[6], phone=res[7])
 
     except sqlite3.Error as err:
         raise HTTPException(status_code=500, detail=str(err))
