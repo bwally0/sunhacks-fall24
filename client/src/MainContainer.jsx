@@ -4,8 +4,7 @@ import axios from 'axios'
 import Home from "./Home";
 import Workouts from "./Workouts";
 import Requests from "./Requests";
-
-const Profile = () => <div><h2>Profile Component</h2><p>This is your profile.</p></div>;
+import Profile from "./Profile";
 
 const MainContainer = ({ setAuth }) => {
     const navigate = useNavigate()
