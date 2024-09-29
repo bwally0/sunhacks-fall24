@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Router, Routes } from 'react-router-dom'
 import LoginPage from './LoginPage'
 import PrivateRoute from './PrivateRoute'
 import TestPage from './TestPage'
+import MainPage from './MainPage'
 
 function App() {
   const [auth, setAuth] = useState(false)

@@ -6,6 +6,7 @@ from fastapi.security import OAuth2PasswordBearer
 from contextlib import asynccontextmanager
 from src.db import create_tables, DB_PATH
 import src.auth
+import src.workout_router
 
 # startup event to init database
 @asynccontextmanager
@@ -22,6 +23,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(root_path="/api", lifespan=lifespan)
 app.include_router(src.auth.router)
+app.include_router(src.workout_router.router)
 
 origins = [
     "http://localhost:5173",  # react app on port 5173

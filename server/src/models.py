@@ -22,7 +22,6 @@ class Workout(BaseModel):
     desc: str
     loc: str
     owner_id: int
-    members = list[User]    
 
 class Request(BaseModel):
     owner_id: int
