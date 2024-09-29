@@ -19,6 +19,7 @@ def create_user(db_con: sqlite3.Connection, user_create: CreateUser) -> User | N
         raise HTTPException(status_code=500, detail=str(err))
     finally:
         user_create.user_id = db_cur.lastrowid
+        db_cur.close
 
     user = User(user_id=user_create.user_id, username=user_create.username, first_name=user_create.first_name, last_name=user_create.last_name, location=user_create.location, gender=user_create.gender, phone=user_create.phone)
 

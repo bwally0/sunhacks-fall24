@@ -40,8 +40,12 @@ class CreateWorkout(BaseModel):
     location: str
 
 class Request(BaseModel):
+    request_id: int
     owner_id: int
-    workout: int
-    participant: int
+    workout_id: int
+    participant_id: int
     accepted: int
 
+class CreateRequest(BaseModel):
+    owner_id: int
+    workout_id: int
