@@ -26,8 +26,33 @@ const LoginPage = ({ setAuth }) => {
     }
 
     return(
-        <div>
-            <h1>LOGIN FORM</h1>
+        <div className="container d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
+            <div className="row">
+                <div className="card p-3 mx-auto" style={{ width: "350px" }}>
+                    <h2 className="text-center">Login</h2>
+                    <form onSubmit={handleLogin}>
+                        <div className="form-group p-2">
+                            <label>Username</label>
+                            <input type="username" className="form-control" placeholder="Enter username" value={username} onChange={(e) => setUsername(e.target.value)} />
+                        </div>
+                        <div className="form-group p-2">
+                            <label>Password</label>
+                            <input type="password" className="form-control" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                        </div>
+                        {error && <p className="p-2">{error}</p>}
+                        <div className="text-center p-2">
+                            <button type="submit" className="btn btn-primary">Login</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+export default LoginPage;
+
+{/* <h1>LOGIN FORM</h1>
             <form onSubmit={handleLogin}>
                 <input
                 type="username"
@@ -42,10 +67,5 @@ const LoginPage = ({ setAuth }) => {
                 onChange={(e) => setPassword(e.target.value)}
                 />
                 <button type="submit">Login</button>
-                {error && <p>{error}</p>}
-            </form>
-        </div>
-    )
-}
-
-export default LoginPage;
+                
+            </form> */}

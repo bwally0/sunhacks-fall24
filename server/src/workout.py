@@ -1,8 +1,29 @@
 import sqlite3
 from fastapi import HTTPException
 from typing import Any
-from src.models import Workout
+from src.models import Workout, CreateWorkout
 import traceback
+
+def test_create_workout(db_con: sqlite3.Connection, workout: CreateWorkout, user_id: int) -> Workout | None:
+    db_cur = db_con.cursor()
+
+    workout_id = None
+
+    try: 
+        db_cur.execute("""
+            INSERT INTO workout (name, date_time, tag1, tag2, tag3, description, location, owner_id)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
+            (workout.name, workout.date_time, workout.tag1, workout.tag2, workout.tag3, workout.description, workout.location, user_id))
+        db_con.commit()
+    except sqlite3.Error as err:
+        db_con.rollback()
+        raise HTTPException(status_code=500, detail=str(err))
+    finally:
+        workout_id = db_cur.lastrowid
+    
+    workout = Workout(workout_id=workout_id, name=workout.name, date_time=workout.date_time, tag1=workout.tag1, tag2=workout.tag2, tag3=workout.tag3, description=workout.description, location=workout.location, owner_id=user_id)
+    
+    return workout
 
 def create_workout(db_con: sqlite3.Connection, workout: Workout, user_id: int) -> Workout | None:
     db_cur = db_con.cursor()

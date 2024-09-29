@@ -1,37 +1,56 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState } from 'react';
+import './MainPage.css'; // Ensure your CSS file is linked
 
-const Home = () => <div><h1>Home</h1><p>Welcome to the home page!</p></div>;
-const MyWorkouts = () => <div><h1>My Workouts</h1><p>Here are your workouts.</p></div>;
-const Requests = () => <div><h1>Requests</h1><p>You have no new requests.</p></div>;
+const workouts = [
+    { id: 1, name: 'Chest', description: 'Workout focused on chest muscles.', owner: 'John Doe' },
+    { id: 2, name: 'Back', description: 'Workout focused on back muscles.', owner: 'Jane Smith' },
+    { id: 3, name: 'Legs', description: 'Workout focused on leg muscles.', owner: 'Alex Johnson' },
+    { id: 4, name: 'Shoulders', description: 'Workout focused on shoulder muscles.', owner: 'Emily Davis' },
+    { id: 5, name: 'Arms', description: 'Workout focused on arm muscles.', owner: 'Michael Brown' },
+    { id: 6, name: 'Cardio', description: 'Workout focused on cardiovascular health.', owner: 'Sarah Wilson' },
+    { id: 7, name: 'Shoulders', description: 'Workout focused on shoulder muscles.', owner: 'Emily Davis' },
+    { id: 8, name: 'Arms', description: 'Workout focused on arm muscles.', owner: 'Michael Brown' },
+    { id: 9, name: 'Cardio', description: 'Workout focused on cardiovascular health.', owner: 'Sarah Wilson' },
+  ];
+  
 
 const MainPage = () => {
-  const [activePage, setActivePage] = useState("home");
+  const [activeWorkout, setActiveWorkout] = useState(null);
+  const [showModal, setShowModal] = useState(false); // State for the modal
 
-  const renderPage = () => {
-    switch (activePage) {
-      case "home":
-        return <Home />;
-      case "myworkouts":
-        return <MyWorkouts />;
-      case "requests":
-        return <Requests />;
-      default:
-        return <Home />;
-    }
+  const toggleModal = () => setShowModal(!showModal);
+  const handleRequest = () => {
+    toggleModal(); // Show modal when request button is clicked
   };
 
   return (
-    <div>
-      <nav>
-        <ul>
-          <li onClick={() => setActivePage("home")}>Home</li>
-          <li onClick={() => setActivePage("myworkouts")}>My Workouts</li>
-          <li onClick={() => setActivePage("requests")}>Requests</li>
-        </ul>
-      </nav>
-      <div>{renderPage()}</div>
+    <div className="mainpage-container">
+      <div className="sidebar">
+        <h2>Workouts</h2>
+        {workouts.map((workout) => (
+          <div 
+            key={workout.id} 
+            className={`workout-container ${activeWorkout === workout.id ? 'active' : ''}`} 
+            onClick={() => setActiveWorkout(activeWorkout === workout.id ? null : workout.id)}
+          >
+            <h3>{workout.name}</h3>
+            {activeWorkout === workout.id && (
+              <p>{workout.description}</p>
+            )}
+          </div>
+        ))}
+      </div>
+      <div className="content-area">
+        <h1>{activeWorkout ? workouts.find(w => w.id === activeWorkout).name : 'Select a workout'}</h1>
+        <p>{activeWorkout ? workouts.find(w => w.id === activeWorkout).description : 'Please select a workout from the sidebar.'}</p>
+        
+        {/* Request to Join Button */}
+        <div className="button-container">
+          <button className="request-button" onClick={handleRequest}>Request to Join</button>
+        </div>
+      </div>
     </div>
   );
-}
+};
 
-export default MainPage
+export default MainPage;
