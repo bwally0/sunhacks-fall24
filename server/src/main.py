@@ -43,6 +43,7 @@ app.include_router(src.user_router.router)
 app.include_router(src.request_router.router)
 
 origins = [
+    "http://127.0.0.1/",
     "http://localhost:5173",  # react app on port 5173
     "http://127.0.0.1:5173",
 ]
@@ -114,7 +115,7 @@ test_workouts = [
         "tag1": "Yoga",
         "tag2": "Flexibility",
         "tag3": "Relaxation",
-        "description": "A relaxing morning yoga session to improve flexibility and reduce stress.",
+        "description": "A relaxing morning yoga session to improve flexibility and reduce stress. Expect to flow through gentle sun salutations, holding poses such as Downward Dog and Warrior II for 30-60 seconds, followed by calming stretches and breathing exercises for a total duration of 60 minutes.",
         "location": "SDFC Tempe"
     },
     {
@@ -123,7 +124,7 @@ test_workouts = [
         "tag1": "HIIT",
         "tag2": "Cardio",
         "tag3": "Strength",
-        "description": "High-Intensity Interval Training (HIIT) session for burning fat and building strength.",
+        "description": "High-Intensity Interval Training (HIIT) session for burning fat and building strength. This workout includes 30 seconds of maximum effort exercises such as burpees, mountain climbers, and kettlebell swings, followed by 15 seconds of rest, repeated in cycles for a total of 45 minutes.",
         "location": "SDFC Tempe"
     },
     {
@@ -132,7 +133,7 @@ test_workouts = [
         "tag1": "Strength",
         "tag2": "Weightlifting",
         "tag3": "Power",
-        "description": "Focus on building muscle and power with heavy lifting exercises.",
+        "description": "Focus on building muscle and power with heavy lifting exercises. The session will include compound movements like squats, deadlifts, and bench presses, with 3-4 sets of 8-12 reps each, complemented by accessory exercises targeting smaller muscle groups, lasting about 75 minutes.",
         "location": "SDFC Tempe"
     },
     {
@@ -141,7 +142,7 @@ test_workouts = [
         "tag1": "Dance",
         "tag2": "Cardio",
         "tag3": "Fun",
-        "description": "An energetic Zumba dance class to improve cardio while having fun.",
+        "description": "An energetic Zumba dance class to improve cardio while having fun. This 60-minute session will feature Latin-inspired dance moves and rhythms, including Salsa and Reggaeton, with a focus on high-energy sequences that keep your heart rate up throughout the class.",
         "location": "SDFC Tempe"
     },
     {
@@ -150,7 +151,7 @@ test_workouts = [
         "tag1": "Cycling",
         "tag2": "Endurance",
         "tag3": "Cardio",
-        "description": "An intense cycling workout designed to build endurance and burn calories.",
+        "description": "An intense cycling workout designed to build endurance and burn calories. The 45-minute session includes varying intensities with intervals of sprints and climbs, integrating a structured warm-up, endurance rides, and a cool-down period.",
         "location": "SDFC Tempe"
     },
     {
@@ -159,7 +160,7 @@ test_workouts = [
         "tag1": "Pilates",
         "tag2": "Core",
         "tag3": "Strength",
-        "description": "A Pilates session focused on strengthening the core and improving posture.",
+        "description": "A Pilates session focused on strengthening the core and improving posture. Expect to engage in a series of controlled movements like the Hundred, Roll-Up, and Plank with repetitions of 8-10 for each exercise, ensuring core engagement throughout the 50-minute class.",
         "location": "SDFC Tempe"
     },
     {
@@ -168,7 +169,7 @@ test_workouts = [
         "tag1": "Meditation",
         "tag2": "Mindfulness",
         "tag3": "Relaxation",
-        "description": "A peaceful meditation session to wind down and clear your mind after a long day.",
+        "description": "A peaceful meditation session to wind down and clear your mind after a long day. This 30-minute guided meditation will focus on mindfulness and breathing techniques, with moments of silence to reflect and relax.",
         "location": "SDFC Tempe"
     },
     {
@@ -177,7 +178,7 @@ test_workouts = [
         "tag1": "Functional",
         "tag2": "Strength",
         "tag3": "Mobility",
-        "description": "A functional fitness workout aimed at improving everyday movement and mobility.",
+        "description": "A functional fitness workout aimed at improving everyday movement and mobility. The 60-minute session will involve exercises such as kettlebell swings, lunges, and push-ups, typically in 3 sets of 10-15 reps, designed to mimic real-life activities.",
         "location": "SDFC Tempe"
     },
     {
@@ -186,7 +187,7 @@ test_workouts = [
         "tag1": "Swimming",
         "tag2": "Endurance",
         "tag3": "Technique",
-        "description": "Swimming drills focused on building endurance and improving technique.",
+        "description": "Swimming drills focused on building endurance and improving technique. The 60-minute session will include various strokes, breathing techniques, and distance sets (e.g., 10 x 50m) with rest intervals to enhance overall swimming performance.",
         "location": "SDFC Tempe"
     },
     {
@@ -195,7 +196,7 @@ test_workouts = [
         "tag1": "Boxing",
         "tag2": "Conditioning",
         "tag3": "Strength",
-        "description": "A boxing-based conditioning workout for cardio, agility, and strength.",
+        "description": "A boxing-based conditioning workout for cardio, agility, and strength. The class includes shadow boxing, heavy bag work, and circuit training with bodyweight exercises, designed in rounds of 3 minutes with 1-minute rest in between for a total duration of 45 minutes.",
         "location": "SDFC Tempe"
     }
 ]

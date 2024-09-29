@@ -2,10 +2,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom"
 import axios from 'axios'
 import Home from "./Home";
+import Workouts from "./Workouts";
+import Requests from "./Requests";
 
-
-const Workouts = () => <div><h2>Workouts Component</h2><p>Here are your workouts!</p></div>;
-const Requests = () => <div><h2>Requests Component</h2><p>These are your requests!</p></div>;
 const Profile = () => <div><h2>Profile Component</h2><p>This is your profile.</p></div>;
 
 const MainContainer = ({ setAuth }) => {
@@ -73,25 +72,3 @@ const MainContainer = ({ setAuth }) => {
 }
 
 export default MainContainer
-
-// const testRequest = async () => {
-//     try { 
-//         const token = localStorage.getItem('jwtToken')
-//         const config = {
-//             headers: {
-//                 'Authorization': `Bearer ${token}`
-//             }
-//         }
-
-//         const response = await axios.get("http://127.0.0.1:8000/api/auth/protected", config)
-//         console.log(response.data)
-//     } catch (error) {
-//         console.log(error)
-//     }
-// }
-
-{/* <div>
-            PISS
-            <button onClick={handleLogout}>Logout</button>
-            <button onClick={testRequest}>Test</button>
-        </div> */}

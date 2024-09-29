@@ -1,0 +1,17 @@
+.workout-card {
+    transition: background-color 0.3s ease; /* Smooth transition for the background color */
+}
+
+.workout-card:hover {
+    background-color: lightgray; /* Change to light gray on hover */
+}
+
+.tags {
+    margin-top: 10px; /* Add some space above the tags */
+}
+.banner {
+    width: 100%; /* Full width of the parent */
+    height: 200px; /* Set a height for the banner */
+    overflow: hidden; /* Hide overflow to crop the image */
+    position: relative; /* Position relative to position the child absolutely */
+}

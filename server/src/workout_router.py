@@ -12,6 +12,7 @@ from src.workout import get_workout as db_get_workout
 from src.workout import get_users_owned_workouts as db_get_owned_workouts
 from src.workout import get_all_workouts as db_get_all_workouts
 from src.workout import remove_workout as db_delete_workout
+from src.workout import get_joined_workouts as db_get_joined_workouts
 from src.auth import get_current_user
 import traceback
 
@@ -33,16 +34,24 @@ async def delete_workout(workout_id: int, user_id: int = Depends(get_current_use
 async def update_workout(workout: Workout, user_id: int = Depends(get_current_user), db_con: sqlite3.Connection = Depends(get_db)):
     return db_update_workout(db_con, workout)
 
+@router.get("/", response_model=list[Workout])
+async def get_all_workouts(user_id: int = (Depends(get_current_user)), db_con: sqlite3.Connection = Depends(get_db)):
+    return db_get_all_workouts(db_con, user_id)
+
+@router.get("/joined", response_model=list[Workout])
+async def get_joined_workouts(user_id: int = (Depends(get_current_user)), db_con: sqlite3.Connection = Depends(get_db)):
+    return db_get_joined_workouts(db_con, user_id)
+
+@router.get("/owned", response_model=list[Workout])
+async def get_owned_workouts(user_id: int = (Depends(get_current_user)), db_con: sqlite3.Connection = Depends(get_db)):
+    return db_get_owned_workouts(db_con, user_id)
+
 @router.get("/{workout_id}", response_model=Workout)
 async def get_workout(workout_id: int, db_con: sqlite3.Connection = Depends(get_db)):
     return db_get_workout(db_con, workout_id)
 
-@router.get("/owned/{owner_id}", response_model=list[Workout])
-async def get_owned_workouts(user_id: int = (Depends(get_current_user)), db_con: sqlite3.Connection = Depends(get_db)):
-    return db_get_owned_workouts(db_con, user_id)
 
-@router.get("/", response_model=list[Workout])
-async def get_all_workouts(user_id: int = (Depends(get_current_user)), db_con: sqlite3.Connection = Depends(get_db)):
-    return db_get_all_workouts(db_con, user_id)
+
+
 
 # /workout/joined

@@ -62,8 +62,6 @@ def update_workout(db_con: sqlite3.Connection, workout: Workout) -> Workout | No
         db_cur.close()
 
     updated_workout = get_workout(db_con, workout.workout_id)
-    
-    print(workout.workout_id)
 
     if not updated_workout:
         raise HTTPException(status_code=404, detail="Workout not found")
@@ -123,6 +121,32 @@ def get_users_owned_workouts(db_con: sqlite3.Connection, owner_id: int) -> list[
     
     return workouts
 
+def get_joined_workouts(db_con: sqlite3.Connection, user_id: int) -> list[Workout] | None:
+    db_cur = db_con.cursor()
+
+    workout = None
+    workouts = []    
+
+    try: 
+        db_cur.execute(""" 
+            SELECT * FROM workout WHERE workout_id IN (SELECT workout_id FROM workout_members WHERE user_id = ?)
+            """, (user_id,))
+        
+        res = db_cur.fetchall()
+
+        if res:
+            for item in res:
+                workout = Workout(workout_id=item[0], name=item[1], date_time=item[2], tag1=item[3], tag2=item[4], tag3=item[5], description=item[6], location=item[7], owner_id=item[8])
+                workouts.append(workout)
+
+    except sqlite3.Error as err:
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=str(err))
+    
+    finally:
+        db_cur.close()
+    
+    return workouts
 
 def get_all_workouts(db_con: sqlite3.Connection, owner_id: int) -> list[Workout] | None:
     db_cur = db_con.cursor()
@@ -140,7 +164,7 @@ def get_all_workouts(db_con: sqlite3.Connection, owner_id: int) -> list[Workout]
 
         if res:
             for item in res:
-                workout = Workout(workout_id=item[0], name=item[1], date_time=item[2], tag1=item[3], tag2=item[4], tag3=item[5], description=item[6], location=item[7], owner_id=owner_id)
+                workout = Workout(workout_id=item[0], name=item[1], date_time=item[2], tag1=item[3], tag2=item[4], tag3=item[5], description=item[6], location=item[7], owner_id=item[8])
                 workouts.append(workout)
 
     except sqlite3.Error as err:

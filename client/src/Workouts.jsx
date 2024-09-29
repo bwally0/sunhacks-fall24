@@ -19,16 +19,30 @@ const WorkoutCard = ({ workout, onClick }) => {
     );
 };
 
-const Home = () => {
-    const [workouts, setWorkouts] = useState([]);
+const Workouts = () => {
+    const [ownedWorkouts, setOwnedWorkouts] = useState([]);
     const [selectedWorkout, setSelectedWorkout] = useState([]);
+    const [joinedWorkouts, setJoinedWorkouts] = useState([]);
+    const [ownerInfo, setOwnerInfo] = useState([]);
 
-    const handleWorkoutClick = (workout) => {
-        console.log(workout)
+    const handleWorkoutClick = async (workout) => {
         setSelectedWorkout(workout);
+        const token = localStorage.getItem('jwtToken');
+        const config = {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        };
+        try {
+            const owner_id = workout.owner_id
+            const userResponse = await axios.get(`http://127.0.0.1:8000/api/user/${owner_id}`, config);
+            setOwnerInfo(userResponse.data);
+        } catch (error) {
+            console.log(error);
+        }       
     };
 
-    const getFeed = async () => {
+    const getOwnedWorkouts = async () => {
         try { 
             const token = localStorage.getItem('jwtToken');
             const config = {
@@ -37,15 +51,16 @@ const Home = () => {
                 }
             };
 
-            const response = await axios.get("http://127.0.0.1:8000/api/workout/", config);
-            setWorkouts(response.data);
-            setSelectedWorkout(response.data[0]);
+            const response = await axios.get("http://127.0.0.1:8000/api/workout/owned", config);
+            console.log(response.data);
+            setOwnedWorkouts(response.data);
+            handleWorkoutClick(response.data[0]);
         } catch (error) {
             console.log(error);
         }
     };
 
-    const handleRequestJoin = async () => {
+    const getJoinedWorkouts = async () => {
         try { 
             const token = localStorage.getItem('jwtToken');
             const config = {
@@ -54,33 +69,30 @@ const Home = () => {
                 }
             };
 
-            const body = {
-                owner_id: selectedWorkout.owner_id,
-                workout_id: selectedWorkout.workout_id
-            }
-
-            const response = await axios.post("http://127.0.0.1:8000/api/request", body, config);
+            const response = await axios.get("http://127.0.0.1:8000/api/workout/joined", config);
             console.log(response.data);
+            setJoinedWorkouts(response.data);
         } catch (error) {
             console.log(error);
         }
     }
 
     useEffect(() => {
-        getFeed();
+        getOwnedWorkouts();
+        getJoinedWorkouts();
     }, []);
 
     return (
         <div className="container-fluid h-100">
             <div className="row h-100">
-                {/* Workout Feed */}
+                {/* Owned Workouts */}
                 <div className="col-4 border d-flex flex-column">
                     <div className="p-3">
-                        <h5 className="text-center">Your Feed</h5>
+                        <h5 className="text-center">Your Workouts</h5>
                     </div>
                     <div className="overflow-auto flex-fill" style={{ maxHeight: 'calc(90vh - 70px)', scrollbarWidth: 'none' }}>
-                        {workouts.length > 0 ? (
-                            workouts.map(workout => (
+                        {ownedWorkouts.length > 0 ? (
+                            ownedWorkouts.map(workout => (
                                 <div key={workout.workout_id} className="mb-1">
                                     <WorkoutCard workout={workout} onClick={handleWorkoutClick}/>
                                 </div>
@@ -89,15 +101,36 @@ const Home = () => {
                             <p>No workouts available.</p>
                         )}
                     </div>
+                    <div className="d-flex p-3 mt-auto">
+                        <button className="btn btn-success me-1">Create</button>
+                        <button className="btn btn-warning">Edit</button>
+                    </div>
+                </div>
+                
+
+                {/* Joined Workouts */}
+                <div className="col-4 border d-flex flex-column">
+                    <div className="p-3">
+                        <h5 className="text-center">Joined Workouts</h5>
+                    </div>
+                    <div className="overflow-auto flex-fill" style={{ maxHeight: 'calc(90vh - 70px)', scrollbarWidth: 'none' }}>
+                        {joinedWorkouts.length > 0 ? (
+                            joinedWorkouts.map(workout => (
+                                <div key={workout.workout_id} className="mb-1">
+                                    <WorkoutCard workout={workout} onClick={handleWorkoutClick}/>
+                                </div>
+                            ))
+                        ) : (
+                            <p>No workouts available.</p>
+                        )}
+                    </div>
+                    
                 </div>
 
-                {/* Workout Info */}
-                <div className="col-8 border d-flex">
+                
+                <div className="col-4 border d-flex">
                     {selectedWorkout ? ( 
                         <div className="p-3 d-flex flex-column flex-grow-1">
-                            <div className="banner mb-2">
-                                <img src={bannerImage} alt="Workout Banner" className="img-fluid" />
-                            </div>
                             <h2>{selectedWorkout.name}</h2>
                             <div className="mb-2">
                                 {selectedWorkout.tag1 && <span className="badge bg-primary me-1">{selectedWorkout.tag1}</span>}
@@ -108,11 +141,8 @@ const Home = () => {
                             <h5>{selectedWorkout.location}</h5>
                             <p>{selectedWorkout.description}</p>
 
-                            <div className="mt-auto">
-                                <button className="btn btn-primary" onClick={handleRequestJoin}>
-                                    Request to Join
-                                </button>
-                            </div>
+                            <h5>Host Info</h5>
+                            <p>{ownerInfo.first_name} {ownerInfo.last_name}: {ownerInfo.phone}</p>
                         </div>
                     ) : (
                         <p>Select a workout to see details.</p>
@@ -123,4 +153,4 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default Workouts

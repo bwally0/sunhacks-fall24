@@ -30,10 +30,11 @@ def create_request(db_con: sqlite3.Connection, request: CreateRequest, user_id: 
 
 def delete_request(db_con: sqlite3.Connection, request_id: int, user_id: int) -> None:
     db_cur = db_con.cursor()
+    print(request_id, user_id)
 
     try:
         db_cur.execute("""
-            DELETE FROM requests WHERE request_id = ? AND participant_id = ?
+            DELETE FROM requests WHERE request_id = ? AND owner_id = ?
             """, (request_id, user_id))
         db_con.commit()
     except sqlite3.Error as err:
@@ -143,13 +144,8 @@ def accept_request(db_con: sqlite3.Connection, request_id: int, user_id: int) ->
 
         db_cur.execute("""
             INSERT INTO workout_members (workout_id, user_id)
-            SELECT ?, ?
-            WHERE EXISTS (
-                SELECT 1 
-                FROM requests
-                WHERE request_id = ? AND accepted = 1
-            )
-            """, (workout.workout_id, user_id, request_id))
+            SELECT (?, ?)
+            """, (workout.workout_id, user_id))
         
         db_con.commit()
         

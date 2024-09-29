@@ -19,3 +19,8 @@ def update_user(user: UpdateUser, user_id: int = Depends(get_current_user), db_c
     updated_user = user_db.update_user(db_con, user, user_id)
 
     return updated_user
+
+@router.get("/{user_id}", response_model=User)
+def get_user(user_id: int, db_con: sqlite3.Connection = Depends(get_db)):
+    user = user_db.get_user(db_con, user_id)
+    return user

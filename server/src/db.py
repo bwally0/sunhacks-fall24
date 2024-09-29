@@ -41,7 +41,6 @@ def create_tables(db_cur: sqlite3.Cursor):
         CREATE TABLE IF NOT EXISTS workout_members (
             workout_id INTEGER,
             user_id INTEGER,
-            PRIMARY KEY (workout_id, user_id),
             FOREIGN KEY (workout_id) REFERENCES workout(workout_id),
             FOREIGN KEY (user_id) REFERENCES user(user_id)
         );
