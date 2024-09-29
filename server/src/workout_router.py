@@ -23,7 +23,6 @@ router = APIRouter(
 @router.post("/create", response_model=Workout)
 async def create_workout(workout: CreateWorkout, user_id: int = Depends(get_current_user), db_con: sqlite3.Connection = Depends(get_db)):
     new_workout = Workout(workout_id=0, name=workout.name, date_time=workout.date_time, tag1=workout.tag1, tag2=workout.tag2, tag3=workout.tag3, description=workout.description, location=workout.location, owner_id=user_id)
-
     return db_create_workout(db_con, new_workout, user_id)
 
 @router.post("/delete/{workout_id}")
@@ -36,7 +35,6 @@ async def update_workout(workout: Workout, user_id: int = Depends(get_current_us
 
 @router.get("/{workout_id}", response_model=Workout)
 async def get_workout(workout_id: int, db_con: sqlite3.Connection = Depends(get_db)):
-    
     return db_get_workout(db_con, workout_id)
 
 @router.get("/owned/{owner_id}", response_model=list[Workout])
