@@ -24,7 +24,6 @@ class Workout(BaseModel):
     owner_id: int
 
 class CreateWorkout(BaseModel):
-    workout_id: str
     name: str
     date_time: str
     tag1: str

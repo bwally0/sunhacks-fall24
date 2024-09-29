@@ -18,6 +18,8 @@ def create_request(db_con: sqlite3.Connection, request: Request) -> Request | No
     finally:
         request.owner_id = db_cur.lastrowid
 
+    request = Request(owner_id=request.owner_id, workout=request.workout, participant=request.participant, accepted=request.accepted)
+
     return request
 
 def update_request(db_con: sqlite3.Connection, request: Request) -> Request | None:

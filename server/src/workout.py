@@ -20,7 +20,7 @@ def create_workout(db_con: sqlite3.Connection, workout: Workout) -> Workout | No
     finally:
         workout.workout_id = db_cur.lastrowid
     
-    workout = Workout(workout.workout_id, workout.name, workout.date_time, workout.tag1, workout.tag2, workout.tag3, workout.description, workout.location, workout.owner_id)
+    workout = Workout(workout_id=workout.workout_id, name=workout.name, date_time=workout.date_time, tag1=workout.tag1, tag2=workout.tag2, tag3=workout.tag3, description=workout.description, location=workout.location, owner_id=workout.owner_id)
     
     return workout
 
@@ -39,7 +39,7 @@ def update_workout(db_con: sqlite3.Connection, workout: Workout) -> Workout | No
     finally:
         db_cur.close()
 
-    #return get_workout(db_con, workout.workout_id)   
+    return get_workout(db_con, workout.workout_id)   
 
 def get_workout(db_con: sqlite3.Connection, workout_id: int) -> Workout | None:
     db_cur = db_con.cursor()

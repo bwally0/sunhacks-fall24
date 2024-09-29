@@ -20,7 +20,7 @@ def create_user(db_con: sqlite3.Connection, user_create: CreateUser) -> User | N
     finally:
         user_create.user_id = db_cur.lastrowid
 
-    user = User(id=user_create.user_id, first_name=user_create.first_name, last_name=user_create.last_name, gym_loc=user_create.loc, gender=user_create.gender, phone=user_create.phone)
+    user = User(user_id=user_create.user_id, first_name=user_create.first_name, last_name=user_create.last_name, gym_loc=user_create.loc, gender=user_create.gender, phone=user_create.phone)
 
     return user
 
