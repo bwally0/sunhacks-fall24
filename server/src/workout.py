@@ -29,14 +29,13 @@ def update_workout(db_con: sqlite3.Connection, workout: Workout) -> Workout | No
     db_cur = db_con.cursor()
 
     try: 
-        ("""
+        db_cur.execute("""
         UPDATE workout
         SET name = ?, date_time = ?, tag1 = ?, tag2 = ?, tag3 = ?, description = ?, location = ?, owner_id = ?
         WHERE workout_id = ?
         """, (workout.name, workout.date_time, workout.tag1, workout.tag2, workout.tag3, workout.description, workout.location, workout.owner_id, workout.workout_id))
     except sqlite3.Error as err:
         db_con.rollback()
-        traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(err))
     finally:
         db_cur.close()
