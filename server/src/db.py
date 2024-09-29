@@ -28,12 +28,12 @@ def create_tables(db_cur: sqlite3.Cursor):
         CREATE TABLE IF NOT EXISTS workout (
             workout_id INTEGER PRIMARY KEY,
             name TEXT,
-            time TEXT,
+            date_time TEXT,
             tag1 TEXT,
             tag2 TEXT,
             tag3 TEXT,
-            desc TEXT,
-            loc TEXT,
+            description TEXT,
+            location TEXT,
             owner_id INTEGER,
             FOREIGN KEY (owner_id) REFERENCES users(id)
         );
@@ -50,7 +50,7 @@ def create_tables(db_cur: sqlite3.Cursor):
             owner_id INTEGER,
             workout INTEGER,
             participant INTEGER,
-            accepted INTEGER
+            accepted INTEGER,
             PRIMARY KEY (owner_id, workout, participant)
             FOREIGN KEY (owner_id) REFERENCES workout(owner_id)
             FOREIGN KEY (workout) REFERENCES workout(workout_id)
