@@ -47,13 +47,13 @@ def create_tables(db_cur: sqlite3.Cursor):
         );
 
         CREATE TABLE IF NOT EXISTS requests (
+            request_id INTEGER PRIMARY KEY,
             owner_id INTEGER,
-            workout INTEGER,
-            participant INTEGER,
+            workout_id INTEGER,
+            participant_id INTEGER,
             accepted INTEGER,
-            PRIMARY KEY (owner_id, workout, participant)
             FOREIGN KEY (owner_id) REFERENCES workout(owner_id)
-            FOREIGN KEY (workout) REFERENCES workout(workout_id)
-            FOREIGN KEY (participant) REFERENCES user(user_id)
+            FOREIGN KEY (workout_id) REFERENCES workout(workout_id)
+            FOREIGN KEY (participant_id) REFERENCES user(user_id)
         );
     """)

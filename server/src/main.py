@@ -8,9 +8,8 @@ from src.db import create_tables, DB_PATH
 import src.auth
 import src.workout_router
 import src.user_router
+import src.request_router
 from src.auth import test_register_user, UserRegister
-
-
 
 # startup event to init database
 @asynccontextmanager
@@ -34,6 +33,7 @@ app = FastAPI(root_path="/api", lifespan=lifespan)
 app.include_router(src.auth.router)
 app.include_router(src.workout_router.router)
 app.include_router(src.user_router.router)
+app.include_router(src.request_router.router)
 
 origins = [
     "http://localhost:5173",  # react app on port 5173
