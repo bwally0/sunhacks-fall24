@@ -8,6 +8,9 @@ from src.db import create_tables, DB_PATH
 import src.auth
 import src.workout_router
 import src.user_router
+from src.auth import test_register_user, UserRegister
+
+
 
 # startup event to init database
 @asynccontextmanager
@@ -18,6 +21,11 @@ async def lifespan(app: FastAPI):
         db_cur = db_con.cursor()
         create_tables(db_cur)
         db_con.commit()
+
+        for user in test_data:
+            test_user = UserRegister(**user)
+            test_register_user(test_user, db_con)
+
         db_cur.close()
         db_con.close()
     yield
@@ -43,3 +51,51 @@ app.add_middleware(
 @app.get("/")
 def get_message():
     return {"message": "sunhacks fall 2024"}
+
+test_data = [
+    {
+        "username": "user1",
+        "password": "pass1",
+        "first_name": "John",
+        "last_name": "Doe",
+        "location": "SDFC Tempe",
+        "gender": "Male",
+        "phone": "555-1234"
+    },
+    {
+        "username": "user2",
+        "password": "pass2",
+        "first_name": "Jane",
+        "last_name": "Smith",
+        "location": "SDFC Tempe",
+        "gender": "Female",
+        "phone": "555-5678"
+    },
+    {
+        "username": "user3",
+        "password": "pass3",
+        "first_name": "Mike",
+        "last_name": "Johnson",
+        "location": "SDFC Tempe",
+        "gender": "Male",
+        "phone": "555-8765"
+    },
+    {
+        "username": "user4",
+        "password": "pass4",
+        "first_name": "Emily",
+        "last_name": "Brown",
+        "location": "SDFC Tempe",
+        "gender": "Female",
+        "phone": "555-4321"
+    },
+    {
+        "username": "user5",
+        "password": "pass5",
+        "first_name": "Chris",
+        "last_name": "Davis",
+        "location": "SDFC Tempe",
+        "gender": "Male",
+        "phone": "555-1111"
+    }
+]

@@ -79,6 +79,10 @@ def authenticate_user(username: str, password: str, db_con: sqlite3.Connection):
         return None
     return user
 
+def test_register_user(user: UserRegister, db_con: sqlite3.Connection):
+    hashed_password = hash_password(user.password)
+    user = user_db.create_user(db_con, CreateUser(user_id=0, username=user.username, hashed_password=hashed_password, first_name=user.first_name, last_name=user.last_name, location=user.location, gender=user.gender, phone=user.phone))
+
 @router.post("/", response_model=Token)
 async def register_user(user: UserRegister, db_con: sqlite3.Connection = Depends(get_db)):
     hashed_password = hash_password(user.password)
