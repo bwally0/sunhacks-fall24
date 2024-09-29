@@ -1,6 +1,7 @@
 import { useState } from "react"
 import axios from 'axios'
 import { useNavigate } from "react-router-dom"
+import goatSvg from './assets/goat.svg';
 
 const LoginPage = ({ setAuth }) => {
     const [username, setUsername] = useState('')
@@ -29,7 +30,11 @@ const LoginPage = ({ setAuth }) => {
         <div className="container d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
             <div className="row">
                 <div className="card p-3 mx-auto" style={{ width: "350px" }}>
-                    <h2 className="text-center">Login</h2>
+                    <div className="text-center">
+                        <img src={goatSvg} alt="Goat Logo" style={{ width: "100px", height: "100px" }} />
+                    </div>
+                    <h2 className="text-center">Welcome to GymGoat</h2>
+                    <h4 className="text-center">Login</h4>
                     <form onSubmit={handleLogin}>
                         <div className="form-group p-2">
                             <label>Username</label>
@@ -51,21 +56,3 @@ const LoginPage = ({ setAuth }) => {
 }
 
 export default LoginPage;
-
-{/* <h1>LOGIN FORM</h1>
-            <form onSubmit={handleLogin}>
-                <input
-                type="username"
-                placeholder="Username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                />
-                <input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                />
-                <button type="submit">Login</button>
-                
-            </form> */}
