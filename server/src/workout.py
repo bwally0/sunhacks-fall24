@@ -2,6 +2,7 @@ import sqlite3
 from fastapi import HTTPException
 from typing import Any
 from src.models import Workout
+import traceback
 
 def create_workout(db_con: sqlite3.Connection, workout: Workout) -> Workout | None:
     db_cur = db_con.cursor()
@@ -35,10 +36,18 @@ def update_workout(db_con: sqlite3.Connection, workout: Workout) -> Workout | No
         """, (workout.name, workout.date_time, workout.tag1, workout.tag2, workout.tag3, workout.description, workout.location, workout.owner_id, workout.workout_id))
     except sqlite3.Error as err:
         db_con.rollback()
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(err))
     finally:
         db_cur.close()
 
+    updated_workout = get_workout(db_con, workout.workout_id)
+    
+    print(workout.workout_id)
+
+    if not updated_workout:
+        raise HTTPException(status_code=404, detail="Workout not found")
+    
     return get_workout(db_con, workout.workout_id)   
 
 def get_workout(db_con: sqlite3.Connection, workout_id: int) -> Workout | None:
@@ -48,15 +57,16 @@ def get_workout(db_con: sqlite3.Connection, workout_id: int) -> Workout | None:
 
     try: 
         db_cur.execute(""" 
-            SELECT * FROM workout WHERE id = ?
-            """, (workout_id))
+            SELECT * FROM workout WHERE workout_id = ?
+            """, (workout_id,))
         
         res = db_cur.fetchone()
 
         if res:
-            workout = Workout(workout_id=res[0], name=res[1], date_time=res[2], tag1=res[3], tag2=res[4], tag3=res[5], description=res[6], log=res[7], owner_id=res[8])
+            workout = Workout(workout_id=res[0], name=res[1], date_time=res[2], tag1=res[3], tag2=res[4], tag3=res[5], description=res[6], location=res[7], owner_id=res[8])
     
     except sqlite3.Error as err:
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(err))
     
     finally:

@@ -7,6 +7,7 @@ from src.db import get_db
 from src.models import Workout, CreateWorkout
 import jwt
 from src.workout import create_workout as db_create_workout
+from src.workout import update_workout as db_update_workout
 from src.auth import get_current_user
 
 router = APIRouter(
@@ -20,6 +21,6 @@ async def create_workout(workout: CreateWorkout, user_id: int = Depends(get_curr
 
     return db_create_workout(db_con, new_workout)
 
-# @router.put("/", response_model=Workout)
-# async def update_workout(workout: Workout, user_id: int = Depends(get_current_user), db_con: sqlite3.Connection = Depends(get_db)):
-    
+@router.put("/", response_model=Workout)
+async def update_workout(workout: Workout, user_id: int = Depends(get_current_user), db_con: sqlite3.Connection = Depends(get_db)):
+    return db_update_workout(db_con, workout)
