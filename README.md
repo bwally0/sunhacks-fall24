@@ -1,5 +1,4 @@
 # Sunhacks Fall 2024
-i <3 chatgibity
 - [React Docs](https://react.dev/learn#)
 - [FastAPI Docs](https://fastapi.tiangolo.com/)
 - [Using Axios in React](https://dev.to/nilanth/how-to-use-axios-in-an-optimized-and-scalable-way-with-react-518n)
